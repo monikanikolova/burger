@@ -1,4 +1,3 @@
-var orm = require("./config/orm.js");
 
 var express = require("express");
 
@@ -20,10 +19,10 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.
-var routes = require("./controllers/catsController.js");
+var routes = require("./controllers/burgers_controllers.js");
 
 app.use(routes);
 
-app.listen(PORT, function() {
-  console.log("App now listening at localhost:" + PORT);
+app.listen(PORT, () => {
+  console.log(`🌍Server listening on: http://localhost:${PORT}`);
 });

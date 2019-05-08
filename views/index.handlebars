@@ -1,0 +1,71 @@
+<div class="container">
+	<div class="row">
+		<div class="center col-sm-12">
+			<h1>Eat-Da-Burger</h1>
+			<hr>
+			<img src="assets/img/burger.png" alt="Eat-Da-Burger">
+		</div>
+	</div>
+	<div class="container" id="burgers-view">
+		<div class="row" >
+			<div class="col-sm-6">
+				<h2>Available Burgers</h2>
+				<ul style="list-style-type:none;">
+					{{#each burgers}}
+					{{#unless this.devoured}}
+					<li>
+						{{this.burger_name}}
+						<form action="/api/burgers/{{this.id}}" method="POST">
+							<input type="hidden" name="devoured" value="true">
+							<button class="btn-warning" type="submit">Devour It!</button>
+						</form>
+
+					</li>
+					{{/unless}}
+					{{/each}}
+				</ul>
+
+			</div>
+
+			<div class="col-sm-6">
+
+				<h2>Gone Burgers!</h2>
+				<ul style="list-style-type:none;">
+					{{#each burgers}}
+					{{#if this.devoured}}
+					<li>
+						{{this.burger_name}}
+
+					</li>
+					{{/if}}
+					{{/each}}
+				</ul>
+			</div>
+	<hr>
+		</div>
+
+		<div class="row">
+			<div class="center col-sm-12" id="add-burger">
+			<br>
+			<br>
+				<h2>Add A Burger!</h2>
+
+				<form class="create-update-form" action="/" method="POST">
+
+					<div class="form-group">
+						<p>Enter a burger you want to order and click the Submit Order button.</p>
+						<input type="text" id="ca" name="burger_name">
+					</div>
+
+					<button class="btn-warning" type="submit">Submit Order</button>
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="footer-copyright text-center py-3">© 2019 Copyright Monika Nikolova
+  </div>
+</footer>

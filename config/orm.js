@@ -1,3 +1,4 @@
+//Import mySQL connection
 var connection = require("./connection.js");
 
 // Object Relational Mapper (ORM)
@@ -10,7 +11,7 @@ function printQuestionMarks(num) {
 
   return arr.toString();
 }
-
+//Helper for mySQL syntax
 function objToSql(ob) {
   var arr = [];
 
@@ -32,20 +33,18 @@ function objToSql(ob) {
   // translate array of strings to a single comma-separated string
   return arr.toString();
 }
-// The ?? signs are for swapping out table or column names
-// The ? signs are for swapping out other values
-// These help avoid SQL injection
-// https://en.wikipedia.org/wiki/SQL_injection
+
+//ORM object to perform SQL queries
 var orm = {
-    selectAll: (whatToSelect, tableInput) => {
-        var queryString = "SELECT ?? FROM ??";
-        connection.query(queryString, [whatToSelect, tableInput], (err, result) => {
-          if (err) throw err;
-          console.log(result);
-        });
+  selectAll: (tableInput, cb) => {
+    var queryString = `SELECT * FROM ${tableInput};`;
+    connection.query(queryString, (err, result) => {
+      if (err) throw err;
+      cb(result);
+    });
   },
-  insertOne: function(table, cols, vals, cb) {
-    var queryString = "INSERT INTO " + table;
+  insertOne: (table, cols, vals, cb) => {
+    var queryString = `INSERT INTO  ${table}`;
 
     queryString += " (";
     queryString += cols.toString();
@@ -54,18 +53,15 @@ var orm = {
     queryString += printQuestionMarks(vals.length);
     queryString += ") ";
 
-    console.log(queryString);
-
-    connection.query(queryString, vals, function(err, result) {
+    connection.query(queryString, vals, (err, result) => {
       if (err) {
         throw err;
       }
-
       cb(result);
     });
   },
-  updateOne: function(table, objColVals, condition, cb) {
-    var queryString = "UPDATE " + table;
+  updateOne: function (table, objColVals, condition, cb) {
+    var queryString = `UPDATE ${table}`;
 
     queryString += " SET ";
     queryString += objToSql(objColVals);
@@ -73,13 +69,14 @@ var orm = {
     queryString += condition;
 
     console.log(queryString);
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, (err, result) => {
       if (err) {
         throw err;
       }
-
       cb(result);
     });
   }
 };
+
+//Export the orm object for the model (burger.js)
 module.exports = orm;
