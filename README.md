@@ -32,7 +32,7 @@ mySQL
 
 To run the application locally, first clone this repository with the following command.
 ```
-gitclone https://github.com/monikanikolova/burger.git
+git clone https://github.com/monikanikolova/burger.git
 ```
 Next, install the application dependencies.
 ```
